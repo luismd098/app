@@ -109,9 +109,7 @@ class Ordinario extends Component {
                                     style={{ flex: 1, margin: 5 }} />
                             </TouchableOpacity>
                         </View>
-                        <View>
-                            
-                        </View>
+                        
                     </View>
                     <ScrollView style={{width:'100%'}}>
                                     <Elemento_Paquete/>
