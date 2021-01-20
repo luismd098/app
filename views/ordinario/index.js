@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { ScrollView, View, StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
 import registros from '../../api/registros';
-import Elemento_Recoleccion from '../../components/Custom_element/elemento_recoleccion';
-import Elemento_Paquete from '../../components/Custom_element/elemento_paquete';
-import Elemento_Acuse from '../../components/Custom_element/elemento_acuse';
+import Custom_ordinario from '../../components/Custom_regOrdinario';
+
 import { TextInput } from 'react-native-gesture-handler';
 
 
@@ -111,13 +110,10 @@ class Ordinario extends Component {
                         </View>
                         
                     </View>
+                    <Text style={{width:'100%',borderBottomColor:'#74b9ff',borderBottomWidth:1}}></Text>
                     <ScrollView style={{width:'100%'}}>
-                                    <Elemento_Paquete/>
-                                    <Elemento_Recoleccion/>
-                                    <Elemento_Paquete/>
-                                    <Elemento_Recoleccion/>
-                                    <Elemento_Paquete/>
-                                    <Elemento_Recoleccion/>
+                                    <Custom_ordinario title="307539162733617"/>
+                                    <Custom_ordinario title="307539738457753"/>
                     </ScrollView>
                 </View>
             </View>);

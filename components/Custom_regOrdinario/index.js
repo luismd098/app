@@ -22,14 +22,16 @@ class Registro extends React.Component {
 }
 const styles = StyleSheet.create({
     container: {
-        margin: 10,
         flexDirection: 'row',
-        height: 50
+        height: 50,
+        // backgroundColor: 'black'
     },
     textStyle: {
-        fontSize: 22,
+        margin: 10,
+        marginLeft: 15,
+        fontSize: 18,
         fontWeight: 'bold',
-        color: '#1e3799'
+        color: '#0984e3'
     }
 
 });
