@@ -5,7 +5,6 @@ import Elemento_Recoleccion from '../../components/Custom_element/elemento_recol
 import Elemento_Paquete from '../../components/Custom_element/elemento_paquete';
 import Elemento_Acuse from '../../components/Custom_element/elemento_acuse';
 
-
 class Menu extends Component {
     constructor(props) {
         super(props);
