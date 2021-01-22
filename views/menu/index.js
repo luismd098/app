@@ -16,7 +16,7 @@ class Menu extends Component {
     }
     iconoUltimaMilla() {
         console.log("Ultima milla");
-        this.props.navigation.navigate('Entregas');
+        this.props.navigation.navigate('Recolecciones');
     }
 
     render() {

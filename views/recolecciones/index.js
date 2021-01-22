@@ -87,7 +87,7 @@ class Menu extends Component {
                 <ScrollView style={styles.subcontainerLista}>
                     <Elemento_Recoleccion />
                     <Elemento_Recoleccion />
-                    <Elemento_Acuse />
+                    <Elemento_Acuse telefono="4522033598"/>
                     <Elemento_Paquete />
                     <Elemento_Acuse />
                     <Elemento_Paquete />

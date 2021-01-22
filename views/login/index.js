@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, TextInput, Image, TouchableOpacity, Text, Button } from 'react-native';
+import { View, StyleSheet, TextInput, Image, TouchableOpacity, Text, Alert } from 'react-native';
 import registros from '../../api/registros';
 class Login extends Component {
     constructor(props) {
@@ -54,8 +54,6 @@ class Login extends Component {
                             placeholder="Contraseña"
                             underlineColorAndroid="transparent"
                             onChangeText={psw => this.setState({ Psw: psw })} />
-                    </View>
-                    <View style={styles.sectionChecked}>
                         <TouchableOpacity style={styles.btnMostrarC}
                             onPress={(_ste == true) ? this.handleMostrarFalse : this.handleMostrarTrue}>
                             <Image
@@ -68,14 +66,10 @@ class Login extends Component {
                                 }
                             />
                         </TouchableOpacity>
-                        <Text style={{
-                            flex: 1,
-                            fontSize: 15,
-                            fontStyle: 'normal',
-                        }}>   Mostrar contraseña</Text>
                     </View>
-                    <Button
-                        title="Entrar"
+                    <TouchableOpacity
+
+                        style={styles.btnEntrar}
                         onPress={() => {
                             registros.getOne(Usr)
                                 .then(resp => {
@@ -91,9 +85,21 @@ class Login extends Component {
                                 }
                                 )
                         }
-                        } />
+
+                        } >
+                        <Text style={styles.textBtn}>Iniciar Sesión</Text>
+                    </TouchableOpacity>
+                    <Text
+                        onPress={() => Alert.alert('Esto funciona')}
+                        style={styles.textOC}>
+                        Olvide mi contraseña</Text>
+                    <Text
+                        onPress={() => Alert.alert('Esto funciona')}
+                        style={styles.textReg}>
+                        Registrar una nueva cuenta</Text>
                 </View>
             </View>);
+
     }
 }
 
@@ -146,6 +152,31 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         borderWidth: 0.5,
         borderColor: '#000'
+    },
+    btnEntrar: {
+        width: "100%",
+        height: 50,
+        borderRadius: 20,
+        backgroundColor: 'blue',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    textBtn: {
+        color: 'white',
+        fontSize: 20
+    },
+    textOC: {
+        marginTop: 10,
+        fontSize: 15,
+        color: '#b2bec3',
+        textDecorationLine: 'underline'
+    },
+    textReg: {
+        marginTop: 10,
+        fontSize: 15,
+        color: '#0984e3',
+        fontWeight: "500",
+        textDecorationLine: 'underline'
     }
 })
 

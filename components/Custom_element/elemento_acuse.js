@@ -1,10 +1,34 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, Image, Text, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, Image, Text, View, Linking } from 'react-native';
 
 class Elemento extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            mobileNo: this.props.telefono || 0
+        };
     }
+
+    // Function to make phone call from React-native Application
+    call = () => {
+        console.log("+++++++++callNumber ", this.state.mobileNo);
+        let phoneNumber = this.state.mobileNo;
+        if (Platform.OS !== "android") {
+            phoneNumber = `telprompt:${this.state.mobileNo}`;
+        } else {
+            phoneNumber = `tel:${this.state.mobileNo}`;
+        }
+        Linking.canOpenURL(phoneNumber)
+            .then(supported => {
+                if (!supported) {
+                    Alert.alert("Number is not available");
+                } else {
+                    return Linking.openURL(phoneNumber);
+                }
+            })
+            .catch(err => console.log(err));
+    };
+
     render() {
         const { imagePath } = this.props;
         return (
@@ -24,7 +48,8 @@ class Elemento extends React.Component {
                     </View>
                 </TouchableOpacity>
                 <View style={styles.containerCall}>
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={this.call}>
                         <Image
                             source={{
                                 uri: 'https://cdn.icon-icons.com/icons2/1130/PNG/128/calltelephoneauricularincircularbutton_80086.png',

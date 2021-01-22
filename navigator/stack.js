@@ -18,7 +18,7 @@ function AppStack() {
                     options={{
                         headerShown: false
                     }} />
-                <Stack.Screen name="Entregas" component={Routes.Entregas}
+                <Stack.Screen name="Recolecciones" component={Routes.Recolecciones}
                     options={{
                         headerShown: false
                     }} />
