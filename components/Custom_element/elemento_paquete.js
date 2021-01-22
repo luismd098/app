@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, Image, Text, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, Image, Text, View, Linking} from 'react-native';
 
 class Elemento extends React.Component {
     constructor(props) {

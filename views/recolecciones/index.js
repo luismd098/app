@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import { ScrollView, Button, View, StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
-import registros from '../../api/registros';
+import { ScrollView, View, StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
 import Elemento_Recoleccion from '../../components/Custom_element/elemento_recoleccion';
 import Elemento_Paquete from '../../components/Custom_element/elemento_paquete';
 import Elemento_Acuse from '../../components/Custom_element/elemento_acuse';
+import AsyncStorage from '@react-native-community/async-storage';
+
+const STORAGE_KEY = '@save_age'
 
 class Menu extends Component {
+    
     constructor(props) {
         super(props);
         this.state = {
@@ -13,91 +16,100 @@ class Menu extends Component {
             _paquetes: "100",
             _acuses: "1",
             _entregas: "20",
-            _listaEntregas: []
+            _listaEntregas: [],
+            _isLoading: true
 
         };
+        const [state, setstate] = useState(initialState);
         this.iconoUltimaMilla = this.iconoUltimaMilla.bind(this);
         this.btnOrdinario = this.btnOrdinario.bind(this);
     }
     iconoUltimaMilla() {
         console.log("Ultima milla");
     }
-    btnOrdinario(){
+    btnOrdinario() {
         this.props.navigation.navigate('Ordinario');
     }
-    Entregas = () => {
+    
+    Recolecciones = () => {
         //Consulta
 
     }
 
     render() {
-        const { _recolecciones, _paquetes, _acuses, _entregas } = this.state;
-        return (
-            <View style={styles.container}>
-                <View style={styles.subcontainerTitulo}>
-                    <View style={styles.subcontainerSubtitulo}>
-                        <View style={styles.subcontainer2}>
-                            <Text style={styles.text1}
-                            >{_recolecciones}</Text>
-                            <Text style={styles.text1}
-                            >recolecciones</Text>
+        
+        const { _recolecciones, _paquetes, _acuses, _entregas, _isLoading } = this.state;
+        if (_isLoading) {
+            return <View><Text>Loading...</Text></View>;
+        }
+        else {
+            return (
+                <View style={styles.container}>
+                    <View style={styles.subcontainerTitulo}>
+                        <View style={styles.subcontainerSubtitulo}>
+                            <View style={styles.subcontainer2}>
+                                <Text style={styles.text1}
+                                >{_recolecciones}</Text>
+                                <Text style={styles.text1}
+                                >recolecciones</Text>
+                            </View>
+                            <View style={styles.subcontainer2}>
+                                <Text style={styles.text1}
+                                >{_paquetes}</Text>
+                                <Text style={styles.text1}
+                                >paquetes</Text>
+                            </View>
+                            <View style={styles.subcontainer2}>
+                                <Text style={styles.text1}
+                                >{_acuses}</Text>
+                                <Text style={styles.text1}
+                                >acuses</Text>
+                            </View>
+                            <View style={styles.subcontainer2}>
+                                <Text style={styles.text2}
+                                >{_entregas}</Text>
+                                <Text style={styles.text2}
+                                >entregas</Text>
+                            </View>
+                            <View style={styles.progressBar}>
+                                <View style={{ flex: 1, backgroundColor: "#8BED4F", width: '50%' }} />
+                            </View>
                         </View>
-                        <View style={styles.subcontainer2}>
-                            <Text style={styles.text1}
-                            >{_paquetes}</Text>
-                            <Text style={styles.text1}
-                            >paquetes</Text>
-                        </View>
-                        <View style={styles.subcontainer2}>
-                            <Text style={styles.text1}
-                            >{_acuses}</Text>
-                            <Text style={styles.text1}
-                            >acuses</Text>
-                        </View>
-                        <View style={styles.subcontainer2}>
-                            <Text style={styles.text2}
-                            >{_entregas}</Text>
-                            <Text style={styles.text2}
-                            >entregas</Text>
-                        </View>
-                        <View style={styles.progressBar}>
-                            <View style={{ flex: 1, backgroundColor: "#8BED4F", width: '50%' }} />
+                        <View style={styles.subcontainerCodigo}>
+                            <TouchableOpacity style={styles.imageStyle}>
+                                <Image
+                                    source={{
+                                        uri: 'https://cdn.icon-icons.com/icons2/1603/PNG/512/price-scan-scanner-bar-barcode-code_108573.png',
+                                    }}
+                                    style={{ flex: 1, margin: 5 }} />
+                            </TouchableOpacity>
+
                         </View>
                     </View>
-                    <View style={styles.subcontainerCodigo}>
-                        <TouchableOpacity style={styles.imageStyle}>
-                            <Image
-                                source={{
-                                    uri: 'https://cdn.icon-icons.com/icons2/1603/PNG/512/price-scan-scanner-bar-barcode-code_108573.png',
-                                }}
-                                style={{ flex: 1, margin: 5 }} />
+                    <View style={styles.subcontainerBotones}>
+                        <TouchableOpacity style={styles.boton1}>
+                            <Text style={styles.textUM}>Última milla</Text>
                         </TouchableOpacity>
-
+                        <TouchableOpacity style={styles.boton2}
+                            onPress={this.btnOrdinario}>
+                            <Text style={styles.textOrdinario}>Reg. Ordinario</Text>
+                        </TouchableOpacity>
                     </View>
-                </View>
-                <View style={styles.subcontainerBotones}>
-                    <TouchableOpacity style={styles.boton1}>
-                        <Text style={styles.textUM}>Última milla</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.boton2}
-                        onPress={this.btnOrdinario}>
-                        <Text style={styles.textOrdinario}>Reg. Ordinario</Text>
-                    </TouchableOpacity>
-                </View>
-                <ScrollView style={styles.subcontainerLista}>
-                    <Elemento_Recoleccion />
-                    <Elemento_Recoleccion />
-                    <Elemento_Acuse telefono="4522033598"/>
-                    <Elemento_Paquete />
-                    <Elemento_Acuse />
-                    <Elemento_Paquete />
+                    <ScrollView style={styles.subcontainerLista}>
+                        <Elemento_Recoleccion />
+                        <Elemento_Recoleccion />
+                        <Elemento_Acuse telefono="4522033598" />
+                        <Elemento_Paquete />
+                        <Elemento_Acuse />
+                        <Elemento_Paquete />
 
 
-                    {/* {this.state._listaEntregas.map(item => (
+                        {/* {this.state._listaEntregas.map(item => (
                         <Text></Text>
                     ))} */}
-                </ScrollView>
-            </View>);
+                    </ScrollView>
+                </View>);
+        }
     }
 }
 
@@ -146,7 +158,7 @@ const styles = StyleSheet.create({
         color: '#74b9ff'
     },
     textOrdinario: {
-        fontSize: 20, 
+        fontSize: 20,
         color: '#74b9ff'
     },
     subcontainerBotones: {
