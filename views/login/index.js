@@ -1,106 +1,123 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, TextInput, Image, TouchableOpacity, Text, Alert } from 'react-native';
 import registros from '../../api/registros';
-class Login extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            _ste: true,
-            Usr: null,
-            Psw: null
-        };
-        this.handleMostrarTrue = this.handleMostrarTrue.bind(this);
-        this.handleMostrarFalse = this.handleMostrarFalse.bind(this);
-    }
-    handleMostrarTrue() {
-        this.setState({ _ste: true }, () => { });
-    }
-    handleMostrarFalse() {
-        this.setState({ _ste: false }, () => { });
-    }
-    render() {
-        const { _ste, Usr, Psw } = this.state;
-        return (
-            <View style={styles.container}>
-                <Image
-                    resizeMode="contain"
-                    style={styles.logo}
-                    source={require('../.././assets/logo.png')} />
-                <View style={styles.subContainer}>
-                    <View style={styles.sectionStyle}>
-                        <Image
-                            source={{
-                                uri:
-                                    'https://icon-icons.com/icons2/1378/PNG/64/avatardefault_92824.png',
-                            }}
-                            style={styles.imageStyle} />
-                        <TextInput
-                            style={{ flex: 1 }}
-                            placeholder="Usuario"
-                            underlineColorAndroid="transparent"
-                            onChangeText={usr => this.setState({ Usr: usr })} />
-                    </View>
-                    <View style={styles.sectionStyle}>
-                        <Image
-                            source={{
-                                uri:
-                                    'https://icon-icons.com/icons2/2072/PNG/64/internet_lock_locked_padlock_password_secure_security_icon_127078.png',
-                            }}
-                            style={styles.imageStyle}
-                        />
-                        <TextInput
-                            secureTextEntry={_ste}
-                            style={{ flex: 1 }}
-                            placeholder="Contraseña"
-                            underlineColorAndroid="transparent"
-                            onChangeText={psw => this.setState({ Psw: psw })} />
-                        <TouchableOpacity style={styles.btnMostrarC}
-                            onPress={(_ste == true) ? this.handleMostrarFalse : this.handleMostrarTrue}>
-                            <Image
-                                source={{
-                                    uri:
-                                        'https://icon-icons.com/icons2/1102/PNG/64/1485969926-11-valid_78891.png',
-                                }}
-                                style={
-                                    (_ste == false) ? styles.imageStyle : { width: 0, height: 0 }
-                                }
-                            />
-                        </TouchableOpacity>
-                    </View>
-                    <TouchableOpacity
+import { AuthContext } from '../../components/context';
+const Login = () => {
 
-                        style={styles.btnEntrar}
-                        onPress={() => {
-                            registros.getOne(Usr)
-                                .then(resp => {
-                                    if (resp.status == 200) {
-                                        //Login correcto
-                                        this.props.navigation.navigate('Menu', {
-                                            usuario: Usr,
-                                            nombre: resp.data[0]['USUARIO'],
-                                            nip: resp.data[0]['ESTADO']
-                                        });
-                                    }
+    const [data, setData] = React.useState({
+        username: '',
+        password: '',
+        showPassword: true,
+    });
 
-                                }
-                                )
-                        }
 
-                        } >
-                        <Text style={styles.textBtn}>Iniciar Sesión</Text>
-                    </TouchableOpacity>
-                    <Text
-                        onPress={() => Alert.alert('Esto funciona')}
-                        style={styles.textOC}>
-                        Olvide mi contraseña</Text>
-                    <Text
-                        onPress={() => Alert.alert('Esto funciona')}
-                        style={styles.textReg}>
-                        Registrar una nueva cuenta</Text>
+    const { signIn } = React.useContext(AuthContext);
+
+    const handleUserChange = (val) => {
+        if (val.lengh != 0) {
+            setData({
+                ...data,
+                username: val
+            });
+        }
+    }
+
+    const handlePasswordChange = (val) => {
+        setData({
+            ...data,
+            password: val
+        });
+    }
+
+    const updateShowPassword = (val) => {
+        setData({
+            ...data,
+            showPassword: !data.showPassword
+        });
+    }
+
+    return (
+        <View style={styles.container}>
+            <Image
+                resizeMode="contain"
+                style={styles.logo}
+                source={require('../.././assets/logo.png')} />
+            <View style={styles.subContainer}>
+                <View style={styles.sectionStyle}>
+                    <Image
+                        source={{
+                            uri:
+                                'https://icon-icons.com/icons2/1378/PNG/64/avatardefault_92824.png',
+                        }}
+                        style={styles.imageStyle} />
+                    <TextInput
+                        style={{ flex: 1 }}
+                        placeholder="Usuario"
+                        underlineColorAndroid="transparent"
+                        onChangeText={usr => handleUserChange(usr)} />
                 </View>
-            </View>);
+                <View style={styles.sectionStyle}>
+                    <Image
+                        source={{
+                            uri:
+                                'https://icon-icons.com/icons2/2072/PNG/64/internet_lock_locked_padlock_password_secure_security_icon_127078.png',
+                        }}
+                        style={styles.imageStyle}
+                    />
+                    <TextInput
+                        secureTextEntry={data.showPassword}
+                        style={{ flex: 1 }}
+                        placeholder="Contraseña"
+                        underlineColorAndroid="transparent"
+                        onChangeText={psw => handlePasswordChange(psw)} />
+                    <TouchableOpacity style={styles.btnMostrarC}
+                        onPress={updateShowPassword}>
+                        <Image
+                            source={{
+                                uri:
+                                    'https://icon-icons.com/icons2/1102/PNG/64/1485969926-11-valid_78891.png',
+                            }}
+                            style={
+                                (data.showPassword == false) ? styles.imageStyle : { width: 0, height: 0 }
+                            }
+                        />
+                    </TouchableOpacity>
+                </View>
+                <TouchableOpacity
 
-    }
+                    style={styles.btnEntrar}
+                    onPress={() => {
+                        signIn(data.username,data.password)
+                        // registros.getOne(Usr)
+                        //     .then(resp => {
+                        //         if (resp.status == 200) {
+                        //             //Login correcto
+                        //             this.props.navigation.navigate('Menu', {
+                        //                 usuario: Usr,
+                        //                 nombre: resp.data[0]['USUARIO'],
+                        //                 nip: resp.data[0]['ESTADO']
+                        //             });
+                        //         }
+
+                        //     }
+                        //     )
+                    }
+
+                    } >
+                    <Text style={styles.textBtn}>Iniciar Sesión</Text>
+                </TouchableOpacity>
+                <Text
+                    onPress={() => Alert.alert('Esto funciona')}
+                    style={styles.textOC}>
+                    Olvide mi contraseña</Text>
+                <Text
+                    onPress={() => Alert.alert('Esto funciona')}
+                    style={styles.textReg}>
+                    Registrar una nueva cuenta</Text>
+            </View>
+        </View>);
+
+
 }
 
 const styles = StyleSheet.create({

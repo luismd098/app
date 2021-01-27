@@ -4,11 +4,20 @@ import Elemento_Recoleccion from '../../components/Custom_element/elemento_recol
 import Elemento_Paquete from '../../components/Custom_element/elemento_paquete';
 import Elemento_Acuse from '../../components/Custom_element/elemento_acuse';
 import AsyncStorage from '@react-native-community/async-storage';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import registros from '../../api/registros';
 
-const STORAGE_KEY = '@save_age'
-
+const STORAGE_KEY = '@save_prueba1'
+const options = {
+    title: 'Select Avatar',
+    customButtons: [{ name: 'fb', title: 'Choose Photo from Facebook' }],
+    storageOptions: {
+        skipBackup: true,
+        path: 'images',
+    },
+};
 class Menu extends Component {
-    
+
     constructor(props) {
         super(props);
         this.state = {
@@ -20,9 +29,38 @@ class Menu extends Component {
             _isLoading: true
 
         };
-        const [state, setstate] = useState(initialState);
+        // const [state, setstate] = useState(initialState);
         this.iconoUltimaMilla = this.iconoUltimaMilla.bind(this);
         this.btnOrdinario = this.btnOrdinario.bind(this);
+        this.tomarFoto = this.tomarFoto.bind(this);
+        this.readData();
+
+    }
+
+    consultaWS = async () => {
+        try {
+
+            await AsyncStorage.setItem(STORAGE_KEY, "PruebaDeAlmacenado")
+            console.log('Data successfully saved')
+        } catch (e) {
+            console.log('Failed to save the data to the storage')
+        }
+    }
+
+    readData = async () => {
+        try {
+            const value = await AsyncStorage.getItem(STORAGE_KEY)
+
+            if (value !== null) {
+                this.setState({ _isLoading: false });
+                console.log(value)
+            } else {
+                this.saveData();
+                console.log("Data is empty")
+            }
+        } catch (e) {
+            console.log('Failed to fetch the data from storage')
+        }
     }
     iconoUltimaMilla() {
         console.log("Ultima milla");
@@ -30,14 +68,25 @@ class Menu extends Component {
     btnOrdinario() {
         this.props.navigation.navigate('Ordinario');
     }
-    
-    Recolecciones = () => {
-        //Consulta
 
+    tomarFoto() {
+        launchCamera(options, (response) => {
+            console.log('Response = ', response);
+
+            if (response.didCancel) {
+                console.log('User cancelled image picker');
+            } else {
+
+                console.log('ImagePicker Error Code: ', response.errorCode);
+                console.log('ImagePicker Error: ', response.errorMessage);
+            }
+        });
     }
 
+
+
     render() {
-        
+
         const { _recolecciones, _paquetes, _acuses, _entregas, _isLoading } = this.state;
         if (_isLoading) {
             return <View><Text>Loading...</Text></View>;
@@ -76,7 +125,9 @@ class Menu extends Component {
                             </View>
                         </View>
                         <View style={styles.subcontainerCodigo}>
-                            <TouchableOpacity style={styles.imageStyle}>
+                            <TouchableOpacity
+                                style={styles.imageStyle}
+                                onPress={this.tomarFoto}>
                                 <Image
                                     source={{
                                         uri: 'https://cdn.icon-icons.com/icons2/1603/PNG/512/price-scan-scanner-bar-barcode-code_108573.png',
@@ -112,6 +163,8 @@ class Menu extends Component {
         }
     }
 }
+
+
 
 const styles = StyleSheet.create({
     container: {
@@ -199,4 +252,5 @@ const styles = StyleSheet.create({
     },
 
 })
+
 export default Menu;

@@ -5,16 +5,16 @@ import { NavigationContainer } from '@react-navigation/native';
 import Routes from './stackRoutes';
 const Stack = createStackNavigator();
 
-function AppStack() {
+function AppStack(props) {
     return (
         <NavigationContainer>
             <Stack.Navigator>
-                <Stack.Screen name="Home"
+                {/* <Stack.Screen name="Home"
                     component={Routes.Login}
                     options={{
                         headerShown: false
-                    }} />
-                <Stack.Screen name="Menu" component={Routes.Menu}
+                    }} /> */}
+                <Stack.Screen name="Menu" component={Routes.Menu} {...props}
                     options={{
                         headerShown: false
                     }} />
