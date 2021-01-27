@@ -16,7 +16,9 @@ npm install react-native-reanimated react-native-gesture-handler react-native-sc
 Para usar el AsyncStorage (aun no esta listo):
 npm install -S @react-native-community/async-storage
 
+Image Picker
 
+npm install -s react-native-image-picker 
 
 AsyncStorage
 
@@ -33,3 +35,7 @@ android.enableJetifier=true
 AsyncStorage_db_size_in_MB=10
 
 This file represents any project-wise settings that you can use to override the default values or settings.
+
+Image Picker
+
+https://github.com/react-native-image-picker/react-native-image-picker
