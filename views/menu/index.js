@@ -19,6 +19,7 @@ class Menu extends Component {
         this.props.navigation.navigate('Recolecciones');
     }
 
+
     render() {
         const { _nombre, _nip } = this.state;
         const _ultimaMillaImageUri = 'https://icon-icons.com/icons2/1642/PNG/72/careshippingservicehandlingpackage_109799.png';

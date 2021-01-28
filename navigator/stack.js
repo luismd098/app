@@ -26,6 +26,10 @@ function AppStack(props) {
                     options={{
                         headerShown: false
                     }} />
+                <Stack.Screen name="Entrega" component={Routes.Entrega} {...props}
+                    options={{
+                        headerShown: true
+                    }} />
             </Stack.Navigator>
         </NavigationContainer>
     );

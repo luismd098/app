@@ -33,6 +33,7 @@ class Menu extends Component {
         this.iconoUltimaMilla = this.iconoUltimaMilla.bind(this);
         this.btnOrdinario = this.btnOrdinario.bind(this);
         this.tomarFoto = this.tomarFoto.bind(this);
+        this.consultaWS();
         this.readData();
 
     }
@@ -150,7 +151,7 @@ class Menu extends Component {
                         <Elemento_Recoleccion />
                         <Elemento_Recoleccion />
                         <Elemento_Acuse telefono="4522033598" />
-                        <Elemento_Paquete />
+                        <Elemento_Paquete {...this.props}/>
                         <Elemento_Acuse />
                         <Elemento_Paquete />
 

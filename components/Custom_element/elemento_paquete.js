@@ -5,8 +5,10 @@ class Elemento extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            id: '1234123',
             mobileNo: this.props.telefono || 0
         };
+        // this.action = this.action.bind(this);
     }
     call = () => {
         console.log("+++++++++callNumber ", this.state.mobileNo);
@@ -19,18 +21,24 @@ class Elemento extends React.Component {
         Linking.canOpenURL(phoneNumber)
             .then(supported => {
                 if (!supported) {
-                    Alert.alert("Number is not available");
+                    Alert.alert("El numero no es valido");
                 } else {
                     return Linking.openURL(phoneNumber);
                 }
             })
             .catch(err => console.log(err));
+    }; 
+
+    action = () => {
+        const { id } = this.props;
+        this.props.navigation.navigate('Entrega',{ID:id});
     };
     render() {
         const { imagePath } = this.props;
         return (
             <View style={styles.container}>
-                <TouchableOpacity style={styles.subContainer}>
+                <TouchableOpacity style={styles.subContainer}
+                onPress={this.action}>
                     <View style={styles.containerImagen}>
                         <Image
                             source={{
