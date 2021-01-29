@@ -30,6 +30,10 @@ function AppStack(props) {
                     options={{
                         headerShown: true
                     }} />
+                <Stack.Screen name="monitor_servicios" component={Routes.monitor_servicios} {...props}
+                    options={{
+                        headerShown: false
+                    }} />
             </Stack.Navigator>
         </NavigationContainer>
     );

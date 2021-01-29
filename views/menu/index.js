@@ -13,10 +13,15 @@ class Menu extends Component {
 
         };
         this.iconoUltimaMilla = this.iconoUltimaMilla.bind(this);
+        this.iconMonitorServicios = this.iconMonitorServicios.bind(this);
     }
     iconoUltimaMilla() {
         console.log("Ultima milla");
         this.props.navigation.navigate('Recolecciones');
+    }
+    iconMonitorServicios() {
+        console.log("Monitor de Servicios");
+        this.props.navigation.navigate('monitor_servicios');
     }
 
 
@@ -42,7 +47,7 @@ class Menu extends Component {
                 <View style={styles.subcontainerIconos}>
                     <CustomIcon imagePath={_ultimaMillaImageUri} title="Última milla" action={this.iconoUltimaMilla} />
                     <CustomIcon imagePath={_rutaImageUri} title="Finalizar Ruta" action={this.iconoUltimaMilla} />
-                    <CustomIcon imagePath={_monitorearImageUri} title="Monitorear servicios" action={this.iconoUltimaMilla} />
+                    <CustomIcon imagePath={_monitorearImageUri} title="Monitorear servicios" action={this.iconMonitorServicios} />
                     <SignOut uri={_cerrarSImageUri}/>
                 </View>
             </View>);
